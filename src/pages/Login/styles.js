@@ -5,6 +5,7 @@ export const Container = styled.View`
   justify-content: center;
   align-items: stretch;
   padding: 30px;
+  background: rgba(0, 0, 0, 0.4);
 `;
 
 export const BackgroundImage = styled.ImageBackground`
@@ -47,5 +48,5 @@ export const TextButton = styled.Text`
 
 export const ButtonCreate = styled.TouchableOpacity`
   height: 40px;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
