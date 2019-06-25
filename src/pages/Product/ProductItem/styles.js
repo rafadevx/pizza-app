@@ -26,6 +26,7 @@ export const Cover = styled.Image`
 export const ProductInfo = styled.View`
   margin-left: 10px;
   justify-content: space-around;
+  flex: 1;
 `;
 
 export const Title = styled.Text`

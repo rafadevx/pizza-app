@@ -7,11 +7,11 @@ import {
 const ProductItem = ({ product }) => (
   <Container>
     <ProductButton>
-      <Cover source={{ uri: 'https://www.ofaraopizzaria.com.br/fotos/pizza%20chamada.jpg' }} />
+      <Cover source={{ uri: product.image }} />
       <ProductInfo>
-        <Title>Pizzas</Title>
-        <Description>Mais de 50 sabores</Description>
-        <Time>30 mins</Time>
+        <Title>{product.name}</Title>
+        <Description>{product.description}</Description>
+        <Time>{`${product.deliveryTime} mins`}</Time>
       </ProductInfo>
     </ProductButton>
   </Container>
