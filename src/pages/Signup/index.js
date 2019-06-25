@@ -13,7 +13,7 @@ import {
 
 import Pizza from '~/assets/images/logo.png';
 
-export default class Login extends Component {
+export default class Signup extends Component {
   componentDidMount() {}
 
   render() {
@@ -23,13 +23,14 @@ export default class Login extends Component {
         <LinearGradient locations={[0.1, 1]} colors={['transparent', '#000']} style={{ flex: 1 }}>
           <Container>
             <Logo source={Pizza} />
+            <Input placeholder="Nome completo" />
             <Input placeholder="Seu e-mail" />
             <Input placeholder="Senha secreta" />
-            <Button onPress={() => navigation.navigate('App')}>
-              <TextButton>Entrar</TextButton>
+            <Button onPress={() => {}}>
+              <TextButton>Criar conta</TextButton>
             </Button>
-            <ButtonCreate onPress={() => navigation.navigate('Signup')}>
-              <TextButton>Criar conta gratuita</TextButton>
+            <ButtonCreate onPress={() => navigation.navigate('Login')}>
+              <TextButton>Já tenho login</TextButton>
             </ButtonCreate>
           </Container>
         </LinearGradient>
