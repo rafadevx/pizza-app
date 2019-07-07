@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  margin-horizontal: 20px;
+  margin-horizontal: 15px;
   margin-bottom: 15px;
   shadow-color: #d3d3d3;
   shadow-offset: 0px 5px;

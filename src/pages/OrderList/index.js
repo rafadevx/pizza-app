@@ -6,71 +6,68 @@ import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import OrderActions from '~/store/ducks/order';
+
 import {
   Container,
   Loading,
-  ProductList,
-  ProductDetails,
+  OrderFList,
+  OrderDetails,
   Background,
   HeaderTitle,
   HeaderContent,
   BackButton,
 } from './styles';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-import ProductTypeActions from '~/store/ducks/productType';
-
-import TypeItem from './TypeItem';
+import OrderItem from './OrderItem';
 
 import BackgroundHeader from '~/assets/images/header-background.png';
 
-class ProductType extends Component {
+class OrderList extends Component {
   static propTypes = {
-    loadTypeRequest: PropTypes.func.isRequired,
+    loadOrdersRequest: PropTypes.func.isRequired,
     navigation: PropTypes.shape({
       goBack: PropTypes.func,
     }).isRequired,
-    productType: PropTypes.shape({
-      Loading: PropTypes.bool,
-      data: PropTypes.array,
+    order: PropTypes.shape({
+      loading: PropTypes.bool,
+      list: PropTypes.array,
     }).isRequired,
   };
 
   componentDidMount() {
-    const { loadTypeRequest, navigation } = this.props;
-    const product = navigation.getParam('product');
-    loadTypeRequest(product.id);
+    const { loadOrdersRequest } = this.props;
+    loadOrdersRequest();
   }
 
-  renderItem = ({ item }) => <TypeItem type={item} />;
+  renderItem = ({ item }) => <OrderItem item={item} />;
 
   render() {
-    const { productType, navigation } = this.props;
+    const { navigation, order } = this.props;
     return (
       <Container>
         <StatusBar barStyle="light-content" />
-        {productType.Loading ? (
+        {order.loading ? (
           <Loading />
         ) : (
-          <ProductList
+          <OrderFList
             ListHeaderComponent={() => (
-              <ProductDetails>
+              <OrderDetails>
                 <Background source={BackgroundHeader} />
                 <HeaderContent>
                   <BackButton onPress={() => navigation.goBack()}>
                     <Icon name="chevron-left" size={12} color="#FFF" />
                   </BackButton>
 
-                  <HeaderTitle>Selecione um tipo</HeaderTitle>
+                  <HeaderTitle>Meus Pedidos</HeaderTitle>
                 </HeaderContent>
-              </ProductDetails>
+              </OrderDetails>
             )}
-            data={productType.data}
+            data={order.list}
             keyExtractor={item => String(item.id)}
             renderItem={this.renderItem}
-            numColumns={2}
-            columnWrapperStyle={{ justifyContent: 'space-between', paddingHorizontal: 15 }}
           />
         )}
       </Container>
@@ -79,12 +76,12 @@ class ProductType extends Component {
 }
 
 const mapStateToProps = state => ({
-  productType: state.productType,
+  order: state.order,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(ProductTypeActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(OrderActions, dispatch);
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProductType);
+)(OrderList);

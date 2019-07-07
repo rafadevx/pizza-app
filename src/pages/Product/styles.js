@@ -6,6 +6,8 @@ export const Container = styled.View`
   background: #fff;
 `;
 
+export const Loading = styled.ActivityIndicator``;
+
 export const ProductList = styled.FlatList``;
 
 export const ProductDetails = styled.View`
@@ -22,9 +24,10 @@ export const Background = styled.ImageBackground`
 `;
 
 export const HeaderContent = styled.View`
-  padding-horizontal: 20px;
+  padding-horizontal: 15px;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 `;
 

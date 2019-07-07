@@ -8,9 +8,9 @@ export const Container = styled.View`
 
 export const Loading = styled.ActivityIndicator``;
 
-export const SizeList = styled.FlatList``;
+export const OrderFList = styled.FlatList``;
 
-export const SizeDetails = styled.View`
+export const OrderDetails = styled.View`
   padding: 0 0 20px;
   align-items: center;
   padding-top: ${getStatusBarHeight() + 30}px;

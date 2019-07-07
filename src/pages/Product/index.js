@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 
+import PropTypes from 'prop-types';
+
+import { StatusBar } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import {
   Container,
+  Loading,
   ProductList,
   ProductDetails,
   Background,
@@ -13,64 +20,73 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import ProductActions from '~/store/ducks/product';
+
 import ProductItem from './ProductItem';
 
 import BackgroundHeader from '~/assets/images/header-background.png';
 
-export default class Product extends Component {
-  componentDidMount() {}
+class Product extends Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }).isRequired,
+    loadProductRequest: PropTypes.func.isRequired,
+    product: PropTypes.shape({
+      Loading: PropTypes.bool,
+      data: PropTypes.array,
+    }).isRequired,
+  };
+
+  componentDidMount() {
+    const { loadProductRequest } = this.props;
+
+    loadProductRequest();
+  }
 
   renderItem = ({ item }) => <ProductItem product={item} />;
 
   render() {
-    const data = [
-      {
-        id: 1,
-        name: 'Pizzas',
-        description: 'Mais de 50 sabores de pizza em até 4 tamanhos diferentes',
-        image: 'https://www.ofaraopizzaria.com.br/fotos/pizza%20chamada.jpg',
-        deliveryTime: '30',
-      },
-      {
-        id: 2,
-        name: 'Massas',
-        description: '10 tipos de massas com diferentes molhos para te satisfazer',
-        image:
-          'https://www.blogvidadecasada.com/wp-content/uploads/2018/05/Receitas-de-massa-para-receber-em-casa.png',
-        deliveryTime: '30',
-      },
-      {
-        id: 3,
-        name: 'Calzones',
-        description: 'Calzones super recheados com mais de 50 sabores diferentes',
-        image:
-          'https://images-gmi-pmc.edge-generalmills.com/9df0ff18-e881-4221-ac91-710b37668b03.jpg',
-        deliveryTime: '30',
-      },
-    ];
+    const { product, navigation } = this.props;
     return (
       <Container>
-        <ProductList
-          ListHeaderComponent={() => (
-            <ProductDetails>
-              <Background source={BackgroundHeader} />
-              <HeaderContent>
-                <HistoryButton>
-                  <Icon name="history" size={24} color="#FFF" />
-                </HistoryButton>
+        <StatusBar barStyle="light-content" />
+        {product.Loading ? (
+          <Loading />
+        ) : (
+          <ProductList
+            ListHeaderComponent={() => (
+              <ProductDetails>
+                <Background source={BackgroundHeader} />
+                <HeaderContent>
+                  <HistoryButton onPress={() => navigation.navigate('OrderList')}>
+                    <Icon name="history" size={24} color="#FFF" />
+                  </HistoryButton>
 
-                <HeaderTitle>Pizzaria Don Juan</HeaderTitle>
-                <BagButton>
-                  <Icon name="shopping-bag" size={20} color="#FFF" />
-                </BagButton>
-              </HeaderContent>
-            </ProductDetails>
-          )}
-          data={data}
-          keyExtractor={item => String(item.id)}
-          renderItem={this.renderItem}
-        />
+                  <HeaderTitle>Pizzaria Don Juan</HeaderTitle>
+                  <BagButton onPress={() => navigation.navigate('Cart')}>
+                    <Icon name="shopping-bag" size={20} color="#FFF" />
+                  </BagButton>
+                </HeaderContent>
+              </ProductDetails>
+            )}
+            data={product.data}
+            keyExtractor={item => String(item.id)}
+            renderItem={this.renderItem}
+          />
+        )}
       </Container>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  product: state.product,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(ProductActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Product);
