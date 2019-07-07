@@ -36,7 +36,12 @@ class Login extends Component {
 
   checkUserExists = async () => {
     const { data } = await api.post('/signin', this.state);
-
+    if (data.user.admin) {
+      const error = {
+        message: 'Não permitido',
+      };
+      throw error;
+    }
     return data.token;
   };
 
@@ -49,7 +54,7 @@ class Login extends Component {
       navigation.navigate('App');
     } catch (err) {
       this.setState({ loading: false, error: true });
-      console.tron.log(err.response.data.error);
+      console.tron.log(err);
     }
   };
 
@@ -61,7 +66,11 @@ class Login extends Component {
         <LinearGradient locations={[0.1, 1]} colors={['transparent', '#000']} style={{ flex: 1 }}>
           <Container>
             <Logo source={Pizza} />
-            {error && <Text>Problema no login</Text>}
+            {error && (
+              <Text style={{ color: 'red', fontWeight: 'bold', alignSelf: 'center' }}>
+                Login não permitido
+              </Text>
+            )}
             <Input
               placeholder="Seu e-mail"
               autoCapitalize="none"
